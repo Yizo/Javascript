@@ -4,7 +4,7 @@ class Stack {
   }
 
   /**
-   * @desc 将元素压栈
+   * 将元素压栈
    * @param {any} element 任意类型 
    */
   push(element) {
@@ -12,7 +12,7 @@ class Stack {
   }
 
   /**
-   * @desc 取出栈中顶部元素
+   * 取出栈中顶部元素
    * @return {any} 返回栈中最顶部的元素
    */
   pop() {
@@ -20,7 +20,7 @@ class Stack {
   }
 
   /**
-   * @desc 查看栈顶元素
+   * 查看栈顶元素
    * @return {any}
    */
   peek() {
@@ -28,7 +28,7 @@ class Stack {
   }
 
   /**
-   * @desc 判断栈是否为空
+   * 判断栈是否为空
    * @return {Boolean}
    */
   isEmpty() {
@@ -36,7 +36,7 @@ class Stack {
   }
 
   /**
-   * @desc 获取栈中元素个数
+   * 获取栈中元素个数
    * @return {Number}
    */
   size() {
@@ -44,7 +44,7 @@ class Stack {
   }
 
   /**
-   * @desc 以字符串形式返回栈中所有元素
+   * 以字符串形式返回栈中所有元素
    * @return {String} 
    */
   toString() {
