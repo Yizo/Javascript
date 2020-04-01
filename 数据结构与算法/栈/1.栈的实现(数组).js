@@ -64,3 +64,30 @@ s.push(1)
 console.log(s.toString())
 console.log(s.peek())
 console.log(s.isEmpty())
+
+/*----------------------------------------*/
+
+/**
+ * 十进制转二进制
+ * @param {Number} 要转化的数字
+ * @return {Number}
+ */
+function dec2bin(decNumber) {
+
+  var stack = new Stack()
+  var binaryString = ''
+
+  while (decNumber > 0) {
+    stack.push(decNumber % 2)
+    decNumber = Math.floor(decNumber / 2)
+  }
+
+  while (!stack.isEmpty()) {
+    binaryString += stack.pop()
+  }
+
+  return binaryString
+
+}
+
+console.log(dec2bin(100))
