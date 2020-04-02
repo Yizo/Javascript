@@ -65,8 +65,8 @@ class Queue {
  * 
  *    3. N轮后，如果不满5次，则新的次数从第一开始
  * 
- * @parm {Array}  参与者的列表
- * @parm {Number} 传几次
+ * @parm {Array} nameList 参与者的列表
+ * @parm {Number} num 传几次
  * @return {Number} 返回胜出者的下标 
  */
 function passGame(nameList, num) {
