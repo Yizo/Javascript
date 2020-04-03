@@ -287,10 +287,14 @@ list.append({
   c: 1
 })
 
-list.insert(1, {
+console.log(list.toString())
+
+list.insert(3, {
   d: 1
 })
 
-console.log(list.get(3))
+console.log(list.toString())
 
-console.log(list.removeAt(1))
+// console.log(list.get(3))
+
+// console.log(list.removeAt(1))
