@@ -22,10 +22,175 @@ console.log(currentMap.size) //1
 
 ## 执行上下文
 
+### 1. 执行上下文
+
 1. 每次在函数执行的时候，都会创建一个执行上下文，执行上下文是一个对象
-2. 执行上下文里面会创建一个对象，里面保存着当前函数内的变量
+2. 执行上下文里面会创建一个对象叫变量对象(Value Object)，里面保存着当前函数内的变量
 3. 基本数据类型保存在上下文对象里，引用数据类型会单独在内存里开辟空间保存
 4. 变量对象里保存的是堆里的内存地址
+
+```js
+function task(m, n) {
+  var a = 1
+  var b = {
+    name: 'zf',
+  }
+  var c = [1, 2, 3]
+}
+
+task(10, 20)
+
+// task的执行上下文
+let taskExecutionContext = {
+  this: window,
+  // Variable Object: 变量对象，里面存的是当前函数执行时要使用的变量
+  VO: {
+    m: 10,
+    n: 20,
+    a: 1,
+    b: `xo1`, // `xo1`,指的是b的内存地址，随意写的
+    c: `xa1`,
+  },
+}
+```
+
+### 2. 执行上下文栈
+
+`Call Stack` 为当前的调用栈
+
+`Scope` 为当前正在被执行函数的作用域链
+
+`Local` 为当前活动对象
+
+1. 栈是一个数据, 里面存放这很多执行上下文
+2. 每次函数执行，都会产生一个执行上下文
+3. 全局上下文的 VO，也被称为 GO(Global Object)对象，在浏览器端 GO 就是 VO 就是 window
+4. 栈底永远是全局上下文，栈顶为当前正在执行的上下文
+5. 当开启一个函数执行时会生成一个新的执行上下文并放入调用栈，执行完毕后会自动出栈
+
+```js
+var globalExecutionContext = {
+  VO: {
+    setTimeout,
+    Math,
+    String,
+    ...
+  },
+}
+```
+
+### 3. 执行上下文生命周期
+
+> 生命周期有两个阶段
+
+1. 创建阶段
+
+- 创建变量对象
+- 确定作用域链
+- 确定 this 指向
+
+2. 执行阶段
+
+- 变量赋值
+- 函数赋值
+- 代码执行
+
+> 变量对象
+
+1. 变量对象会保存变量声明(var)、函数参数(arguments)、函数定义(function)
+
+- 变量对象会首先获得函数的参数变量和值
+- 获取所有用 function 进行的函数声明，函数名为变量对象的属性名，值为函数对象,如果属性已经存在，值会用新值覆盖
+- 再依次所有的 var 关键字进行的变量声明，每找到一个变量声明，就会在变量对象上建一个属性，值为 undefined,如果变量名已经存在，则会跳过，并不会修改原属性值,let 声明的变量并不会在此阶段进行处理
+
+2. 函数声明优先级更高，同名的函数会覆盖函数和变量，但同名 var 变量并不会覆盖函数.执行阶段重新赋值可以改变原有的值
+
+> 激活对象
+
+1. 在函数的调用栈中，如果当前执行上下文处于函数调用栈的顶端，则意味着当前上下文处于激活状态，此时变量对象称为活动对象(AO,Activation Object) VO=>AO
+2. 活动变量包含变量对象所有的属性，并有包含 this 指针
+
+## 作用域
+
+> 在 JS 中，作用域是用来规定变量访问范围的规则
+
+1. 作用域是在定义时确定的，跟在哪执行没关系
+2. 执行上下文执行有两个阶段，第一个是`编译阶段`，第二个是`执行阶段`
+3. `编译阶段`会对 var 变量声明和函数声明进行变量提升
+
+- var 声明会`声明但不赋值`
+- 函数声明会`声明并赋值`
+- 将所有变量声明为一个`VO对象`
+
+4. 在作用域中包含`VO对象`, `ScopeChain`保留着当前函数的作用域链
+
+```js
+function one() {
+  var a = 1
+  function two() {
+    var b = 2
+    function three() {
+      var c = 3
+      console.log(a, b, c)
+    }
+    // 在函数定义时，内部给该函数赋予了当前的作用域链，当该函数运行时，再加上改函数的作用域
+    // three['[[Scopes]]'] = ['two的作用域'， ’one的作用域‘, 'global作用域']
+    three()
+  }
+  two()
+}
+one()
+
+// 1.创建全局上下文
+var globalExecuteContextVO = { one: `()=>{var a = 1;}` }
+var globalExecuteContext = {
+  VO: globalExecuteContextVO,
+  scopeChain: [globalExecuteContextVO],
+}
+var executeContextStack = [globalExecuteContext]
+//2.执行one，创建one执行上下文
+var oneExecuteContextVO = {
+  a: 1,
+  two: `()=>{var b = 2 ;}`,
+}
+var oneExecuteContext = {
+  VO: oneExecuteContextVO,
+  scopeChain: [oneExecuteContextVO, globalExecuteContext.VO],
+}
+//2.执行two，创建two执行上下文
+var twoExecuteContextVO = {
+  b: 2,
+  three: `()=>{var c = 3 ;}`,
+}
+var twoExecuteContext = {
+  VO: twoExecuteContextVO,
+  scopeChain: [twoExecuteContextVO, oneExecuteContext.VO, globalExecuteContext.VO],
+}
+//3.执行three，创建three执行上下文
+var threeExecuteContextVO = {
+  c: 3,
+}
+
+var threeExecuteContext = {
+  VO: threeExecuteContextVO,
+  scopeChain: [threeExecuteContextVO, ...three['[[Scopes]]']],
+  // scopeChain: [
+  //   threeExecuteContextVO,
+  //   twoExecuteContext.VO,
+  //   oneExecuteContext.VO,
+  //   globalExecuteContext.VO,
+  // ],
+}
+function getValue(varName) {
+  for (let i = 0; i < threeExecuteContext.scopeChain.length; i++) {
+    if (varName in threeExecuteContext.scopeChain[i]) {
+      return threeExecuteContext.scopeChain[i][varName]
+    }
+  }
+}
+//console.log(a, b, c);
+console.log(getValue('a'), getValue('b'), getValue('c'))
+```
 
 ## 词法环境包括两部分
 
@@ -55,22 +220,6 @@ function User(name) {
 }
 
 ```
-
-## 基本类型和引用类型的区别
-
-> **基本类型(栈内存)**
-
-1. 存储的值大小固定
-2. 空间较小
-3. 可以直接操作其保存的变量，运行效率高
-4. 由系统自动分配存储空间
-
-> **引用类型(堆内存)**
-
-1. 存储的值大小不定，可动态调整
-2. 空间较大，运行效率低
-3. 无法直接操作其内部存储，使用引用地址读取
-4. 通过代码进行分配空间
 
 ```js
 // 基本类型具有不变性
