@@ -60,7 +60,7 @@ let taskExecutionContext = {
 
 `Scope` 为当前正在被执行函数的作用域链
 
-`Local` 为当前活动对象
+`Local` 为当前活动对象(AO)
 
 1. 栈是一个数据, 里面存放这很多执行上下文
 2. 每次函数执行，都会产生一个执行上下文
@@ -99,11 +99,47 @@ var globalExecutionContext = {
 
 1. 变量对象会保存变量声明(var)、函数参数(arguments)、函数定义(function)
 
-- 变量对象会首先获得函数的参数变量和值
-- 获取所有用 function 进行的函数声明，函数名为变量对象的属性名，值为函数对象,如果属性已经存在，值会用新值覆盖
-- 再依次所有的 var 关键字进行的变量声明，每找到一个变量声明，就会在变量对象上建一个属性，值为 undefined,如果变量名已经存在，则会跳过，并不会修改原属性值,let 声明的变量并不会在此阶段进行处理
+- 变量对象会`首先`获得`函数的参数变量和值`
+- 获取所有用 `function` 进行的`函数声明`，函数名为变量对象的属性名，值为函数对象,如果属性已经存在，值会用新值`覆盖`
+- 再依次所有的 `var` 关键字进行的变量声明，每找到一个变量声明，就会在变量对象上建一个属性，值为 `undefined`,如果变量名已经存在，则会`跳过`，并不会修改原属性值,`let` 声明的变量`并不会在此阶段进行处理`
 
 2. 函数声明优先级更高，同名的函数会覆盖函数和变量，但同名 var 变量并不会覆盖函数.执行阶段重新赋值可以改变原有的值
+
+```js
+var a = 1
+function fn(m) {
+  console.log('fn')
+}
+function fn(m) {
+  console.log('new_fn')
+}
+function a() {
+  console.log('fn_a')
+}
+console.log(a)
+fn(1)
+var fn = 'var_fn'
+console.log(fn)
+
+/**编译阶段**/
+function fn(m) {
+  console.log('fn')
+}
+function fn(m) {
+  console.log('new_fn')
+}
+function a() {
+  console.log('fn_a')
+}
+var a = undefined
+var fn = undefined
+/**执行阶段**/
+a = 1
+console.log(a)
+fn()
+fn = 'var_fn'
+console.log(fn)
+```
 
 > 激活对象
 
@@ -191,6 +227,31 @@ function getValue(varName) {
 //console.log(a, b, c);
 console.log(getValue('a'), getValue('b'), getValue('c'))
 ```
+
+## 闭包
+
+> 形式
+
+1. 闭包由两部分组成: 当前的执行上下文 A， 在当前执行上下文中创建的函数 B
+2. 当 B 执行的时候引用了当前执行上下文 A 中的变量就形成了闭包
+
+> 意义
+
+1. 延长了局部变量的声明周期
+2. 函数外部可以访问局部变量
+
+> 生命周期
+
+1. 闭包在外部函数`执行完成时`产生，而不是调用时
+2. 闭包在外部函数成为垃圾对象时销毁`fn = null`
+
+## var&let&const
+
+1. ES6 新增块级作用域`{}`, 允许块级作用域嵌套
+2. var 可以跨块访问,不能跨函数访问,有变量提升,可重复声明
+3. let 只能在块作用域里访问，不能跨块访问，也不能跨函数访问，无变量提升，不可以重复声明
+4. let 声明的变量`绑定`在暂时性死区, 在声明之前不能使用该变量，这特性叫暂时性死区(temporal dead zone)
+5. 如果有重复变量 let 会在编译阶段报错
 
 ## 词法环境包括两部分
 
@@ -404,20 +465,3 @@ console.log(generator.next(4))
 - 将参数赋值给 ask2=4
 - 遇上`ruturn`, 将 ask2 保存到 value
 - 返回{ value: 4, done: true }
-
-## 闭包
-
-> 形式
-
-1. 一个函数的返回值是函数
-2. 函数的行参作为实参给另一个函数调用
-
-> 意义
-
-1. 延长了局部变量的声明周期
-2. 函数外部可以访问局部变量
-
-> 生命周期
-
-1. 闭包在外部函数执行完成时产生，而不是调用时
-2. 闭包在外部函数成为垃圾对象时销毁`fn = null`
