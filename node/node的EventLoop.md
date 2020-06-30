@@ -60,6 +60,8 @@ console.log('end')
 
 timers 阶段的setTimeout/setInterval 不像浏览器(先执行一个宏任务,再执行微任务)，而是**依次执行全部宏任务，再执行微任务**  
 
+**新版本的node和浏览器保持一致**
+
 ### setTimeout 和 setImmediate  
 
 二者非常相似，区别主要在于调用时机不同。  
