@@ -1,7 +1,7 @@
 ## 1. 概述
-* `offset`: 获取元素的实际显示尺寸
-* `scroll`: 获取滚动后全部尺寸
-* `client`: 获取不包括滚动条的实际显示尺寸
+* `offset`: 获取元素的实际显示尺寸(不包含滚动条)
+* `scroll`: 获取滚动后全部尺寸(包含滚动条)
+* `client`: 获取不包括滚动条的实际显示尺寸(视口)
 * `event`: 获取鼠标的坐标位置  
 
 [![](https://i.loli.net/2019/10/19/oGUnf9xR5A8QKEL.gif)](https://i.loli.net/2019/10/19/oGUnf9xR5A8QKEL.gif)
@@ -43,15 +43,9 @@ document.body.clientWidth
 | :------------ | :------------ |
 | bubbles  | 是否为冒泡类型  |
 | button  |  鼠标哪一个按钮被点击 |
-| pageX/pageY  | 相对body，鼠标的坐标  |
-| screenX/screenY  | 相对浏览器，鼠标的坐标  |
+| pageX/pageY  | 相对body，鼠标的坐标(包含滚动条)  |
+| screenX/screenY  | 相对屏幕，鼠标的坐标  |
 | clientX/clientY  | 相对浏览器的可视区域，鼠标的坐标  |
+| offsetX/offsetX| 相对元素，鼠标的坐标  |
 | target  | 事件发生的源头  |
 | type  | 事件类型  |
-
-
-[toc]
-
-
-
-
