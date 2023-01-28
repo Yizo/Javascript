@@ -24,7 +24,7 @@ class Stack {
    * @return {any}
    */
   peek() {
-    return this.items[this.items.length - 1]
+    return this.items[this.size() - 1]
   }
 
   /**
@@ -32,7 +32,7 @@ class Stack {
    * @return {Boolean}
    */
   isEmpty() {
-    return this.items.length == 0
+    return this.size() === 0
   }
 
   /**
@@ -52,6 +52,12 @@ class Stack {
       return prev += current + ''
     }, '')
   }
+  /**
+   * 清空栈
+   * */
+  clear() {
+    this.items = []
+  }
 }
 
 /*----------------------------------------*/
@@ -69,13 +75,13 @@ console.log(s.isEmpty())
 
 /**
  * 十进制转二进制
- * @param {Number} 要转化的数字
+ * @param decNumber
  * @return {Number}
  */
 function dec2bin(decNumber) {
 
-  var stack = new Stack()
-  var binaryString = ''
+  const stack = new Stack()
+  let binaryString = ''
 
   while (decNumber > 0) {
     stack.push(decNumber % 2)
@@ -86,7 +92,7 @@ function dec2bin(decNumber) {
     binaryString += stack.pop()
   }
 
-  return binaryString
+  return Number(binaryString)
 
 }
 
