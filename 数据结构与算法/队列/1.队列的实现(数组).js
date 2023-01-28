@@ -32,7 +32,7 @@ class Queue {
    * @return {Boolean}
    */
   isEmpty() {
-    return this.items.length == 0
+    return this.size() === 0
   }
 
   /**
@@ -72,7 +72,8 @@ class Queue {
 function passGame(nameList, num) {
 
   // 1. 创建一个队列结构
-  var queue = new Queue()
+  const queue = new Queue()
+  const elimitatedList = []
 
   // 2. 将所有人依次加入到队列
   nameList.forEach(item => {
@@ -80,7 +81,7 @@ function passGame(nameList, num) {
   })
 
   // 3. 开始数数字
-  while (queue.size()) {
+  while (queue.size() > 1) {
 
     // 3.1 number之前的让重新放入到队列的末尾
     for (let i = 0; i < num - 1; i++) {
@@ -88,12 +89,26 @@ function passGame(nameList, num) {
     }
 
     // 3.2 number对应的人，直接淘汰
-    queue.dequeue()
+    elimitatedList.push(queue.dequeue())
+  }
 
-    var endName = queue.front()
+  const endName = queue.front()
 
-    return nameList.indexOf(endName)
-
+  return {
+    elimitated: elimitatedList,
+    index: nameList.indexOf(endName)
   }
 
 }
+
+const names = ['AAA', 'BBB', 'CCC', 'DDD', 'EEE']
+const result = passGame(names, 7)
+for (let i = 0; i < result.elimitated.length; i++) {
+  console.log(`${result.elimitated[i]}在击鼓传花游戏中被淘汰。`)
+}
+console.log(`胜利者：${names[result.index]}`)
+// BBB在击鼓传花游戏中被淘汰。
+// EEE在击鼓传花游戏中被淘汰。
+// AAA在击鼓传花游戏中被淘汰。
+// CCC在击鼓传花游戏中被淘汰。
+// 胜利者：DDD
