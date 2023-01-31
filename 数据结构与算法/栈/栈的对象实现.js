@@ -92,3 +92,19 @@ console.log(baseConverter(100, 2))  // 1100100
 console.log(baseConverter(100, 8))  // 144
 console.log(baseConverter(100, 16)) // 64
 console.log(baseConverter(100, 32)) // 34
+
+
+function fact(n) {
+    const s = new Stack()
+    while (n > 1) {
+        s.push(n--)
+    }
+    let product = 1
+    while (s.size() > 0) {
+        product *= s.pop()
+    }
+    return product
+}
+
+
+console.log(fact(10))

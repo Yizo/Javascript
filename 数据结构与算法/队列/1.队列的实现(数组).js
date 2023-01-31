@@ -112,3 +112,65 @@ console.log(`胜利者：${names[result.index]}`)
 // EEE在击鼓传花游戏中被淘汰。
 // DDD在击鼓传花游戏中被淘汰。
 // 胜利者：AAA
+
+
+const tree = {
+  val: 'a',
+  children: [
+    {
+      val: 'b',
+      children: [
+        {
+          val: 'd',
+          children: []
+        },
+        {
+          val: 'e',
+          children: []
+        },
+        {
+          val: 'f',
+          children: []
+        }
+      ]
+    },
+    {
+      val: 'c',
+      children: [
+        {
+          val: 'g',
+          children: []
+        },
+        {
+          val: 'h',
+          children: []
+        },
+        {
+          val: 'i',
+          children: []
+        }
+      ]
+    }
+  ]
+}
+
+/**
+ * 广度优先遍历树
+ * */
+function bfs(node) {
+  const nodes = []
+  if(node) {
+    const queue = new Queue()
+    queue.enqueue(node)
+    while(queue.size()) {
+      const item = queue.dequeue()
+      nodes.push(item.val)
+      const children = Array.from(item.children)
+      children.forEach(child => {
+        queue.enqueue(child)
+      })
+    }
+  }
+  return nodes
+}
+console.log(bfs(tree))

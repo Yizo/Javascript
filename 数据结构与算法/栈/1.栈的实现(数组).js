@@ -97,3 +97,60 @@ function dec2bin(decNumber) {
 }
 
 console.log(dec2bin(100))
+
+const tree = {
+  val: 'a',
+  children: [
+    {
+      val: 'b',
+      children: [
+        {
+          val: 'd',
+          children: []
+        },
+        {
+          val: 'e',
+          children: []
+        },
+        {
+          val: 'f',
+          children: []
+        }
+      ]
+    },
+    {
+      val: 'c',
+      children: [
+        {
+          val: 'g',
+          children: []
+        },
+        {
+          val: 'h',
+          children: []
+        },
+        {
+          val: 'i',
+          children: []
+        }
+      ]
+    }
+  ]
+}
+
+// 深度优先遍历
+function dfs(node) {
+  const nodes = []
+  if(node) {
+    const stack = new Stack()
+    stack.push(node)
+    while (stack.size()) {
+      const item = stack.pop()
+      nodes.push(item.val)
+      while (item.children && item.children.length) {
+        stack.push(item.children.pop())
+      }
+    }
+  }
+  return nodes
+}
