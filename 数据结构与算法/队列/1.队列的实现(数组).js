@@ -84,7 +84,7 @@ function passGame(nameList, num) {
   while (queue.size() > 1) {
 
     // 3.1 number之前的让重新放入到队列的末尾
-    for (let i = 0; i < num - 1; i++) {
+    for (let i = 0; i < num; i++) {
       queue.enqueue(queue.dequeue())
     }
 
@@ -107,8 +107,8 @@ for (let i = 0; i < result.elimitated.length; i++) {
   console.log(`${result.elimitated[i]}在击鼓传花游戏中被淘汰。`)
 }
 console.log(`胜利者：${names[result.index]}`)
+// CCC在击鼓传花游戏中被淘汰。
 // BBB在击鼓传花游戏中被淘汰。
 // EEE在击鼓传花游戏中被淘汰。
-// AAA在击鼓传花游戏中被淘汰。
-// CCC在击鼓传花游戏中被淘汰。
-// 胜利者：DDD
+// DDD在击鼓传花游戏中被淘汰。
+// 胜利者：AAA

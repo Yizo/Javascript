@@ -19,9 +19,9 @@ class PriorityQueue {
    * @param {Number} priority 队列的优先级,数字越大,优先级越大
    */
   enqueue(element, priority) {
-    var queueElement = new QueueElement(element, priority)
+    const queueElement = new QueueElement(element, priority)
 
-    if (this.items.length == 0) {
+    if (this.isEmpty()) {
       this.items.push(queueElement)
     } else {
       // 是否添加了
@@ -59,7 +59,7 @@ class PriorityQueue {
    * @return {Boolean}
    */
   isEmpty() {
-    return this.items.length == 0
+    return this.size() === 0
   }
 
   /**
@@ -83,7 +83,7 @@ class PriorityQueue {
 
 
 /*********************验证***************************/
-var bq = new PriorityQueue()
+const bq = new PriorityQueue()
 
 bq.enqueue('aaa', 70)
 bq.enqueue('ccc', 2)
@@ -91,4 +91,4 @@ bq.enqueue('ddd', 100)
 bq.enqueue('fff', 89)
 
 console.log(bq.front())
-console.log(bq)
+console.log(bq.toString())
