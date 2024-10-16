@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>插入排序</title>
+</head>
+<body>
+<script>
+    function randomArray(len) {
+        const arr = []
+        for (let i = 0; i < len; i++) {
+            arr.push(Math.floor(Math.random() * 1000))
+        }
+        return arr
+    }
+
+    const data = randomArray(10)
+
+    /**
+     * 分为两部分，有序区间[0-j], 无序区间[i-length]
+     * **/
+    function insertSort(data, ascend = true) {
+        const length = data.length
+        for(let i = 1; i<length; i++) {
+            const temp = data[i]
+            // 已排序的最后一个元素索引
+            let j = i - 1
+            /**
+             * i=1, j=0, temp=1
+             *
+             *
+             * **/
+            // 把i位置的元素和i之前的所有元素循环比较
+            while (j >= 0 && data[j] > temp) {
+                // 如果i前某位置的元素，大于i位置的元素, j+1=j, 大的往后挪
+                data[j + 1] = data[j]
+                j--
+            }
+            // 已经找到到插入的位置，把i位置的元素插入到j+1的位置
+            data[j + 1] = temp
+        }
+        return data
+    }
+
+    console.time('插入排序耗时:')
+    console.log(insertSort( [4, 1, 3, 1, 5, 2], false))
+    console.timeEnd('插入排序耗时:')
+</script>
+</body>
+</html>

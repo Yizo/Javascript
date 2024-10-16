@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>快速排序</title>
+</head>
+<body>
+<script>
+
+    function randomArray(len) {
+        const arr = []
+        for (let i = 0; i < len; i++) {
+            arr.push(Math.floor(Math.random() * 1000))
+        }
+        return arr
+    }
+
+    const data = randomArray(20)
+
+    function quickSort(arr) {
+        if (arr.length <= 1) {
+            return arr;
+        }
+        const sortHelper = (arr, result = []) => {
+            if (arr.length === 0) {
+                return result;
+            }
+            let left = []
+            let right = []
+            let mid = arr[0]
+            for(let i = 1; i < arr.length; i++) {
+                if(arr[i] < mid) {
+                    left.push(arr[i])
+                } else if(arr[i] > mid) {
+                    right.push(arr[i])
+                } 
+            }
+            return sortHelper(left, result.concat([mid])).concat(right)
+        }
+        return sortHelper(arr)
+    }
+    console.time('快速排序耗时:')
+    console.log(quickSort(data))
+    console.timeEnd('快速排序耗时:')
+</script>
+</body>
+</html>

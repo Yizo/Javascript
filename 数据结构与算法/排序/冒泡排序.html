@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>冒泡排序</title>
+</head>
+<body>
+<script>
+    // 生成随机数组, 1-100
+    function randomArray(len) {
+        const arr = []
+        for (let i = 0; i < len; i++) {
+            arr.push(Math.floor(Math.random() * 1000))
+        }
+        return arr
+    }
+
+    const data = randomArray(20)
+
+    function bubbleSort(arr, ascend = true) {
+        // 第一层循环, 将最大的元素放到最后
+        // 第二层循环，排除最大的，将第二大的元素放到最后
+        // .....依次类推
+        for(let i = 0; i<arr.length - 1; i++) {
+            // 因为上一轮已经找到了最大/最小的元素，所以下一轮比较的元素数量需要递减
+            for(let j = 0; j < arr.length - 1 - i; j++) {
+                const flag = ascend ? arr[j] > arr[j+1] : arr[j] < arr[j+1]
+                if(flag) {
+                    // 交换位置
+                    let temp = arr[j]
+                    arr[j] = arr[j+1]
+                    arr[j+1] = temp
+                }
+            }
+        }
+        return arr
+    }
+    console.time('冒泡排序耗时:')
+    console.log(bubbleSort(data, false))
+    console.timeEnd('冒泡排序耗时:')
+</script>
+</body>
+</html>
